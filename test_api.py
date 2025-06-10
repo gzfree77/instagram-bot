@@ -3,7 +3,8 @@ import json
 
 # Test the content generation API
 def test_content_generation():
-    url = "http://localhost:5000/api/generate-content"
+    url = "https://instagram-bot-y86e.onrender.com/api/generate-content"
+
     
     test_data = {
         "productData": {
