@@ -1,12 +1,14 @@
-from flask import Flask, jsonify, request
+from flask import Flask, request, jsonify, Response
 from flask_cors import CORS
+import json
 
 app = Flask(__name__)
 CORS(app)
 
 @app.route('/')
 def home():
-    return jsonify({"message": "ربات تولید محتوای اینستاگرام فعال است!"})
+    msg = {"message": "ربات تولید محتوا فعال است!"}
+    return Response(json.dumps(msg, ensure_ascii=False), mimetype="application/json")
 
 @app.route('/api/generate-content', methods=['POST'])
 def generate_content():
@@ -23,14 +25,12 @@ def generate_content():
         origin = product.get('originCountry', '')
         features = product.get('features', '')
 
-        content = f"{name} یک سنگ {color} از {origin} است که برای {usage} بسیار مناسب می‌باشد. ویژگی‌ها: {features}. لحن: {tone}، زبان خروجی: {lang}"
+        content = f"{name} یک سنگ {color} از {origin} است که برای {usage} بسیار مناسب می‌باشد. ویژگی‌ها: {features}. لحن محتوا: {tone}، زبان: {lang}"
 
-        return jsonify({"generatedContent": content})
+        return Response(json.dumps({"generatedContent": content}, ensure_ascii=False), mimetype="application/json")
     
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000)
-
-
